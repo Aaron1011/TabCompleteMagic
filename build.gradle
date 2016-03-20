@@ -26,7 +26,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 group = 'com.aaron1011'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 description = 'A sponge plugin to add some magic to tab completion'
 
 repositories {
