@@ -1,54 +1,14 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            name = 'sponge'
-            url = 'http://repo.spongepowered.org/maven'
-        }
-    }
-
-    dependencies {
-        classpath 'org.spongepowered:spongegradle:0.5.2-SNAPSHOT'
-    }
-}
-
-
 plugins {
-    id 'java'
-    id 'idea'
+    id 'org.spongepowered.plugin' version '0.5.1'
 }
-
-apply plugin: 'org.spongepowered.plugin'
 
 defaultTasks 'build'
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
 
 group = 'com.aaron1011'
 version = '1.0.0'
 description = 'A sponge plugin to add some magic to tab completion'
 
-repositories {
-    mavenCentral()
-    jcenter()
-
-    maven {
-        name 'Sponge maven repo'
-        url 'http://repo.spongepowered.org/maven'
-    }
-
-    maven {
-        name 'sonatypeSnapshot'
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
-
-}
-
 dependencies {
     compile "org.spongepowered:spongeapi:4.1.0-SNAPSHOT"
-    compile "com.google.code.gson:gson:2.3.1"
-    compile "com.google.guava:guava:18.0"
-
     testCompile "junit:junit:4.12"
 }
