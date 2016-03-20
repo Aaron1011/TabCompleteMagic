@@ -88,7 +88,7 @@ public class TabCompleteMagic {
     @Listener(order = Order.POST)
     public void onTab(TabCompleteEvent.Command event, @First CommandSource src) {
         if (!ignoreEvent && this.config.invasiveComplete) {
-            this.handleSuggestions(src, event.getTabCompletions(), event.getRawMessage().trim());
+            this.handleSuggestions(src, event.getTabCompletions(), event.getRawMessage());
         }
         this.ignoreEvent = false;
     }
@@ -96,14 +96,14 @@ public class TabCompleteMagic {
     private Optional<CommandResult> handleSuggestions(CommandSource src, List<String> suggestions, String raw) {
 
         if (suggestions.isEmpty()) {
-            boolean hasExecute = raw.endsWith("EXECUTE");
-            boolean hasDeny = raw.endsWith("DENY");
+            boolean hasExecute = raw.trim().endsWith("EXECUTE");
+            boolean hasDeny = raw.trim().endsWith("DENY");
 
             if (!hasExecute && !hasDeny) {
                 suggestions.add("DENY");
                 suggestions.add("EXECUTE");
             } else if (hasExecute) {
-                String real = raw.substring(0, raw.lastIndexOf("EXECUTE")).trim();
+                String real = raw.substring(0, raw.lastIndexOf("EXECUTE"));
                 return Optional.of(Sponge.getCommandManager().process(src, real));
             }
         }
@@ -129,11 +129,6 @@ public class TabCompleteMagic {
         @Override
         public List<String> getSuggestions(CommandSource source, String arguments) throws CommandException {
             TabCompleteMagic.this.ignoreEvent = true;
-
-            arguments = arguments.trim();
-            if (arguments.length() == 0) {
-                return Sponge.getCommandManager().getSuggestions(source, arguments);
-            }
 
             List<String> suggestions = Lists.newArrayList(Sponge.getCommandManager().getSuggestions(source, arguments));
             TabCompleteMagic.this.handleSuggestions(source, suggestions, arguments);
