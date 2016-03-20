@@ -1,8 +1,0 @@
-[
-    {
-        "modid": "com.aaron1011.tabcompletemagic",
-        "name": "Tab Complete Magic",
-        "version": "1.0-SNAPSHOT",
-        "description": "A sponge plugin to add some magic to tab completion"
-    }
-]
