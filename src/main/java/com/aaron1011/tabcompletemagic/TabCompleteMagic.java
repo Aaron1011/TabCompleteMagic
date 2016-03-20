@@ -29,7 +29,8 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-@Plugin(id = "com.aaron1011.tabcompletemagic", name = "Tab Complete Magic")
+@Plugin(id = "com.aaron1011.tabcompletemagic", name = "Tab Complete Magic", version = "1.0.0",
+        description = "A plugin to add extra magic to tab completion", url = "https://github.com/Aaron1011/TabCompleteMagic", authors = "Aaron1011")
 public class TabCompleteMagic {
 
     @Inject @DefaultConfig(sharedRoot = false)

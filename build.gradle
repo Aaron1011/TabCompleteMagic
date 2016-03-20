@@ -1,8 +1,24 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = 'sponge'
+            url = 'http://repo.spongepowered.org/maven'
+        }
+    }
+
+    dependencies {
+        classpath 'org.spongepowered:spongegradle:0.5.2-SNAPSHOT'
+    }
+}
+
+
 plugins {
     id 'java'
     id 'idea'
-    id 'org.spongepowered.plugin'
 }
+
+apply plugin: 'org.spongepowered.plugin'
 
 defaultTasks 'build'
 
