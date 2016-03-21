@@ -1,12 +1,10 @@
 package com.aaron1011.tabcompletemagic;
 
-import com.google.common.collect.Lists;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -23,13 +21,12 @@ import org.spongepowered.api.text.format.TextColors;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
-@Plugin(id = "com.aaron1011.tabcompletemagic", name = "Tab Complete Magic",
+@Plugin(id = "tabcompletemagic", name = "Tab Complete Magic",
         description = "A plugin to add extra magic to tab completion", url = "https://github.com/Aaron1011/TabCompleteMagic", authors = "Aaron1011")
 public class TabCompleteMagic {
 
@@ -42,7 +39,7 @@ public class TabCompleteMagic {
     private ObjectMapper.BoundInstance mapper;
     private Config config = new Config();
 
-    private boolean ignoreEvent = false;
+    protected boolean ignoreEvent = false;
 
 
     @Listener
@@ -68,7 +65,7 @@ public class TabCompleteMagic {
                         }
                     }).build();
 
-            Sponge.getCommandManager().register(this, new MyCommand(), "tab");
+            Sponge.getCommandManager().register(this, new TabCommand(this), "tab");
             Sponge.getCommandManager().register(this, reload, "tabreload");
 
             this.reload();
@@ -90,71 +87,25 @@ public class TabCompleteMagic {
         if (!ignoreEvent && this.config.invasiveComplete) {
             this.handleSuggestions(src, event.getTabCompletions(), event.getRawMessage());
         }
-        this.ignoreEvent = false;
     }
 
-    private Optional<CommandResult> handleSuggestions(CommandSource src, List<String> suggestions, String raw) {
+    protected Optional<CommandResult> handleSuggestions(CommandSource src, List<String> suggestions, String raw) {
 
-        boolean hasExecute = raw.trim().endsWith("EXECUTE");
-        boolean hasDeny = raw.trim().endsWith("DENY");
+        boolean hasExecute = raw.trim().endsWith(config.execute);
+        boolean hasDeny = raw.trim().endsWith(config.deny);
 
         if (hasExecute) {
             suggestions.clear();
-            String real = raw.substring(0, raw.lastIndexOf("EXECUTE"));
+            String real = raw.substring(0, raw.lastIndexOf(config.execute));
             return Optional.of(Sponge.getCommandManager().process(src, real.trim())); /// Actual commands always have whitespace stripped *client-side*
         } else if (!hasExecute && !hasDeny && suggestions.isEmpty()) {
             char last = raw.charAt(raw.length() - 1);
             if (Character.isWhitespace(last)) { // There's nothing we can do otherwise - the client is dumb
-                suggestions.add("DENY");
-                suggestions.add("EXECUTE");
+                suggestions.add(config.deny);
+                suggestions.add(config.execute);
             }
         }
         return Optional.empty();
-    }
-
-    public class MyCommand implements CommandCallable {
-
-        private final Text help;
-        private final Text usage;
-
-        public MyCommand() {
-            this.help = Text.of("Allows executing a command via <tab>");
-            this.usage = Text.of("<command> EXECUTE :tab:");
-        }
-
-        @Override
-        public CommandResult process(CommandSource source, String arguments) throws CommandException {
-            return TabCompleteMagic.this.handleSuggestions(source, new ArrayList<>(), arguments).orElse(CommandResult.empty());
-        }
-
-        @Override
-        public List<String> getSuggestions(CommandSource source, String arguments) throws CommandException {
-            TabCompleteMagic.this.ignoreEvent = true;
-
-            List<String> suggestions = Lists.newArrayList(Sponge.getCommandManager().getSuggestions(source, arguments));
-            TabCompleteMagic.this.handleSuggestions(source, suggestions, arguments);
-            return suggestions;
-        }
-
-        @Override
-        public boolean testPermission(CommandSource source) {
-            return false;
-        }
-
-        @Override
-        public Optional<? extends Text> getShortDescription(CommandSource source) {
-            return Optional.of(this.help);
-        }
-
-        @Override
-        public Optional<? extends Text> getHelp(CommandSource source) {
-            return Optional.of(this.help);
-        }
-
-        @Override
-        public Text getUsage(CommandSource source) {
-            return this.usage;
-        }
     }
 
 }
