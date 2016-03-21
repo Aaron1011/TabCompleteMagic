@@ -95,19 +95,20 @@ public class TabCompleteMagic {
 
     private Optional<CommandResult> handleSuggestions(CommandSource src, List<String> suggestions, String raw) {
 
-        if (suggestions.isEmpty()) {
-            boolean hasExecute = raw.trim().endsWith("EXECUTE");
-            boolean hasDeny = raw.trim().endsWith("DENY");
+        boolean hasExecute = raw.trim().endsWith("EXECUTE");
+        boolean hasDeny = raw.trim().endsWith("DENY");
 
-            if (!hasExecute && !hasDeny) {
+        if (hasExecute) {
+            suggestions.clear();
+            String real = raw.substring(0, raw.lastIndexOf("EXECUTE"));
+            return Optional.of(Sponge.getCommandManager().process(src, real.trim())); /// Actual commands always have whitespace stripped *client-side*
+        } else if (!hasExecute && !hasDeny && suggestions.isEmpty()) {
+            char last = raw.charAt(raw.length() - 1);
+            if (Character.isWhitespace(last)) { // There's nothing we can do otherwise - the client is dumb
                 suggestions.add("DENY");
                 suggestions.add("EXECUTE");
-            } else if (hasExecute) {
-                String real = raw.substring(0, raw.lastIndexOf("EXECUTE"));
-                return Optional.of(Sponge.getCommandManager().process(src, real));
             }
         }
-
         return Optional.empty();
     }
 
