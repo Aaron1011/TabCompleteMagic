@@ -5,7 +5,7 @@ plugins {
 defaultTasks 'build'
 
 group = 'com.aaron1011'
-version = '1.0.0'
+version = '1.0.1'
 description = 'A sponge plugin to add some magic to tab completion'
 
 dependencies {
