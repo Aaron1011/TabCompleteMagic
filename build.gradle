@@ -5,10 +5,10 @@ plugins {
 defaultTasks 'build'
 
 group = 'com.aaron1011'
-version = '2.0.0'
+version = '2.1.0'
 description = 'A sponge plugin to add some magic to tab completion'
 
 dependencies {
-    compile "org.spongepowered:spongeapi:4.1.0-SNAPSHOT"
+    compile "org.spongepowered:spongeapi:5.1.0-SNAPSHOT"
     testCompile "junit:junit:4.12"
 }

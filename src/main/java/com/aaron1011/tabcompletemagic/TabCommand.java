@@ -7,6 +7,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +32,9 @@ public class TabCommand implements CommandCallable {
     }
 
     @Override
-    public List<String> getSuggestions(CommandSource source, String arguments) throws CommandException {
+    public List<String> getSuggestions(CommandSource source, String arguments, Location<World> location) throws CommandException {
         tabCompleteMagic.ignoreEvent = true;
-        List<String> suggestions = Lists.newArrayList(Sponge.getCommandManager().getSuggestions(source, arguments));
+        List<String> suggestions = Lists.newArrayList(Sponge.getCommandManager().getSuggestions(source, arguments, location));
         tabCompleteMagic.ignoreEvent = false;
 
         tabCompleteMagic.handleSuggestions(source, suggestions, arguments);
@@ -45,12 +47,12 @@ public class TabCommand implements CommandCallable {
     }
 
     @Override
-    public Optional<? extends Text> getShortDescription(CommandSource source) {
+    public Optional<Text> getShortDescription(CommandSource source) {
         return Optional.of(this.help);
     }
 
     @Override
-    public Optional<? extends Text> getHelp(CommandSource source) {
+    public Optional<Text> getHelp(CommandSource source) {
         return Optional.of(this.help);
     }
 
