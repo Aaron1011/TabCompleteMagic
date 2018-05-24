@@ -1,5 +1,6 @@
 plugins {
-    id 'org.spongepowered.plugin' version '0.5.1'
+    id 'org.spongepowered.plugin' version '0.8.1'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
 defaultTasks 'build'
@@ -8,7 +9,15 @@ group = 'com.aaron1011'
 version = '2.1.0'
 description = 'A sponge plugin to add some magic to tab completion'
 
+repositories {
+    maven {
+        name = 'bstats'
+        url = 'http://repo.bstats.org/content/repositories/releases/'
+    }
+}
+
 dependencies {
-    compile "org.spongepowered:spongeapi:5.1.0-SNAPSHOT"
+    compile "org.spongepowered:spongeapi:7.1.0-SNAPSHOT"
+    compile "org.bstats:bstats-sponge:1.2"
     testCompile "junit:junit:4.12"
 }
