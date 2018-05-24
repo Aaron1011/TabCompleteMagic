@@ -27,7 +27,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-@Plugin(id = "tabcompletemagic", name = "Tab Complete Magic", version = "2.0.0",
+@Plugin(id = "tabcompletemagic", name = "TabCompleteMagic", version = "2.0.0",
         description = "A plugin to add extra magic to tab completion", url = "https://github.com/Aaron1011/TabCompleteMagic", authors = "Aaron1011")
 public class TabCompleteMagic {
 
@@ -35,7 +35,7 @@ public class TabCompleteMagic {
     private Path defaultConfig;
 
     @Inject
-    private Metrics metrics;
+    Metrics metrics;
 
     private CommentedConfigurationNode rootNode;
     private HoconConfigurationLoader loader;
