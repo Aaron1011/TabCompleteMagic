@@ -21,3 +21,15 @@ dependencies {
     compile "org.bstats:bstats-sponge:1.2"
     testCompile "junit:junit:4.12"
 }
+
+shadowJar {
+    dependencies {
+        include(dependency("org.bstats:bstats-sponge:1.2"))
+    }
+    relocate "org.bstats", "com.aaron1011.tabcompletemagic.shade.org.bstats"
+    classifier = ''
+}
+
+artifacts {
+    archives shadowJar
+}
