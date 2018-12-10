@@ -12,7 +12,7 @@ description = 'A sponge plugin to add some magic to tab completion'
 repositories {
     maven {
         name = 'bstats'
-        url = 'http://repo.bstats.org/content/repositories/releases/'
+        url = 'https://repo.codemc.org/repository/maven-public'
     }
 }
 
