@@ -24,9 +24,8 @@ dependencies {
 
 shadowJar {
     dependencies {
-        include(dependency("org.bstats:bstats-sponge:1.2"))
+        include(dependency("org.bstats:bstats-sponge:1.4"))
     }
-    relocate "org.bstats", "com.aaron1011.tabcompletemagic.shade.org.bstats"
     classifier = ''
 }
 

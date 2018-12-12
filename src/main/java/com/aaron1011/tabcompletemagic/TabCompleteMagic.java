@@ -4,7 +4,7 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.bstats.sponge.Metrics;
+import org.bstats.sponge.Metrics2;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -35,7 +35,7 @@ public class TabCompleteMagic {
     private Path defaultConfig;
 
     @Inject
-    Metrics metrics;
+    Metrics2 metrics;
 
     private CommentedConfigurationNode rootNode;
     private HoconConfigurationLoader loader;
